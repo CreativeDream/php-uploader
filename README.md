@@ -28,12 +28,12 @@ $data = $uploader->upload($_FILES['files'], array(
     'onRemove' => null //A callback function name to be called by removing files (must return an array) | ($removed_files) | Callback
 ));
 
-if($data['onComplete']){
-    $files = $data['files'];
+if($data['isComplete']){
+    $files = $data['data'];
     print_r($files);
 }
 
-if($data['hasError']){
+if($data['hasErrors']){
     $errors = $data['errors'];
     print_r($errors);
 }
@@ -49,12 +49,12 @@ $data = $uploader->upload('https://www.google.com/images/srpr/logo11w.png', arra
     'title' => array('auto', 10), //New file name {null, String, Array} *please read documentation in README.md
 ));
 
-if($data['onComplete']){
-    $files = $data['files'];
+if($data['isComplete']){
+    $files = $data['data'];
     print_r($files);
 }
 
-if($data['hasError']){
+if($data['hasErrors']){
     $errors = $data['errors'];
     print_r($errors);
 }

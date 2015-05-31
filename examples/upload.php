@@ -19,12 +19,12 @@
         'onRemove' => null //A callback function name to be called by removing files (must return an array) | ($removed_files) | Callback
     ));
     
-    if($data['onComplete']){
-        $files = $data['files'];
+    if($data['isComplete']){
+        $files = $data['data'];
         print_r($files);
     }
 
-    if($data['hasError']){
+    if($data['hasErrors']){
         $errors = $data['errors'];
         print_r($errors);
     }

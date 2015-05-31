@@ -51,6 +51,7 @@ class Uploader {
         "hasErrors" => false,
         "hasWarnings" => false,
         "isSuccess" => false,
+        "isComplete" => false,
         "data" => array(
             "files" => array(),
             "metas" => array()
@@ -235,6 +236,7 @@ class Uploader {
             
             if($this->data['isSuccess']) $custom = $this->_onSuccess($this->data['data']['files'], $this->data['data']['metas']);
             
+            $this->data['isComplete'] = true;
             $custom = $this->_onComplete($this->data['data']['files'], $this->data['data']['metas']);
         }
         
