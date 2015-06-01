@@ -53,7 +53,7 @@ function onFilesRemoveCallback($removed_files){
 
 __Download:__
 ~~~~ php
-include('../src/class.uploader.php');
+include('src/class.uploader.php');
     
 $uploader = new Uploader();
 $data = $uploader->upload('https://www.google.com/images/srpr/logo11w.png', array(
