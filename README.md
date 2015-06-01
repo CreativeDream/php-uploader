@@ -8,7 +8,7 @@ Usage
 -------
 __Upload:__
 ~~~~ php
-include('../src/class.uploader.php');
+include('src/class.uploader.php');
     
 $uploader = new Uploader();
 $data = $uploader->upload($_FILES['files'], array(
