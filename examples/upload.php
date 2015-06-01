@@ -16,7 +16,7 @@
         'onSuccess' => null, //A callback function name to be called if all files were successfully uploaded | ($files, $metas) | Callback
         'onUpload' => null, //A callback function name to be called if all files were successfully uploaded (must return an array) | ($file) | Callback
         'onComplete' => null, //A callback function name to be called when upload is complete | ($file) | Callback
-        'onRemove' => null //A callback function name to be called by removing files (must return an array) | ($removed_files) | Callback
+        'onRemove' => 'onFilesRemoveCallback' //A callback function name to be called by removing files (must return an array) | ($removed_files) | Callback
     ));
     
     if($data['isComplete']){
@@ -27,5 +27,17 @@
     if($data['hasErrors']){
         $errors = $data['errors'];
         print_r($errors);
+    }
+    
+    function onFilesRemoveCallback($removed_files){
+        foreach($removed_files as $key=>$value){
+            $file = '../uploads/' . $value;
+            if(file_exists($file)){
+                unlink($file);
+                unset($removed_files[$key]);
+            }
+        }
+        
+        return $removed_files;
     }
 ?>
