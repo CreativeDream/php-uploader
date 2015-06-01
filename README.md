@@ -40,7 +40,7 @@ if($data['hasErrors']){
 
 function onFilesRemoveCallback($removed_files){
     foreach($removed_files as $key=>$value){
-        $file = '../uploads/' . $value;
+        $file = 'uploads/' . $value;
         if(file_exists($file)){
             unlink($file);
             unset($removed_files[$key]);
