@@ -34,7 +34,6 @@
             $file = '../uploads/' . $value;
             if(file_exists($file)){
                 unlink($file);
-                unset($removed_files[$key]);
             }
         }
         
