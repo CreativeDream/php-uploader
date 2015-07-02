@@ -93,6 +93,10 @@ class Uploader {
             $this->field['Field_Name'] = array_search($field, $_FILES);
             $this->field['Field_Type'] = 'input';
             
+            if(!is_array($this->field['name'])){
+           	$this->field = array_merge($this->field, array("name" => array($this->field['name']), "tmp_name"=>array($this->field['tmp_name']), "type"=>array($this->field['type']), "error"=>array($this->field['error']), "size"=>array($this->field['size'])));
+            }
+            
             foreach($this->field['name'] as $key=>$value){ if(empty($value)){ unset($this->field['name'][$key]); unset($this->field['type'][$key]); unset($this->field['tmp_name'][$key]); unset($this->field['error'][$key]); unset($this->field['size'][$key]); } }
             
             $this->field['length'] = count($this->field['name']);
