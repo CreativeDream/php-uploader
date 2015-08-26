@@ -4,8 +4,8 @@
 #  Title      [PHP] Uploader
 #  Author:    CreativeDream
 #  Website:   https://github.com/CreativeDream/php-uploader
-#  Version:   0.1
-#  Date:      31-May-2015
+#  Version:   0.2
+#  Date:      26-Aug-2015
 #  Purpose:   Validate, Remove, Upload, Download files to server.
 #
 # ======================================================================== #
@@ -268,21 +268,20 @@ class Uploader {
      * @return array
      */
 	private function removeFiles(){
+        $removed_files = array();
         if($this->options['removeFiles'] !== false){
             foreach($_POST as $key=>$value){
                 preg_match((is_string($this->options['removeFiles']) ? $this->options['removeFiles'] : '/jfiler-items-exclude-'.$this->field['Field_Name'].'-(\d+)/'), $key, $matches);
 
                 if(isset($matches) && !empty($matches)){
                     $input = $_POST[$matches[0]];
-                    $removed_files = json_decode($input, true);
+                    if($this->isJson($input)) $removed_files = json_decode($input, true);
                     
                     $custom = $this->_onRemove($removed_files, $this->field); if($custom && is_array($custom)) $removed_files = $custom;
-
-                    return $removed_files;
                 }
             }
         }
-        return array();
+        return $removed_files;
 	}
 	
     /**
@@ -363,6 +362,17 @@ class Uploader {
 		
 		return $string;
 	}
+    
+    /**
+     * isJson method
+     *
+     * Check if string is a valid json
+     * @return boolean
+     */
+    function isJson($string) {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
     
     /**
      * isURL method
