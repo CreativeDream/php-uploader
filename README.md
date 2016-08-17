@@ -1,4 +1,4 @@
-[PHP] Uploader 0.2
+[PHP] Uploader 0.3
 ============
 PHP File Uploader is an easy to use, hi-performance File Upload Script which allows you to upload/download files to webserver
 
@@ -9,7 +9,7 @@ Usage
 __Upload:__
 ~~~~ php
 include('src/class.uploader.php');
-    
+
 $uploader = new Uploader();
 $data = $uploader->upload($_FILES['files'], array(
     'limit' => 10, //Maximum Limit of files. {null, Number}
@@ -19,6 +19,7 @@ $data = $uploader->upload($_FILES['files'], array(
     'uploadDir' => 'uploads/', //Upload directory {String}
     'title' => array('auto', 10), //New file name {null, String, Array} *please read documentation in README.md
     'removeFiles' => true, //Enable file exclusion {Boolean(extra for jQuery.filer), String($_POST field name containing json data with file names)}
+    'replace' => false, //Replace the file if it already exists {Boolean}
     'perms' => null, //Uploaded file permisions {null, Number}
     'onCheck' => null, //A callback function name to be called by checking a file for errors (must return an array) | ($file) | Callback
     'onError' => null, //A callback function name to be called if an error occured (must return an array) | ($errors, $file) | Callback
@@ -37,24 +38,12 @@ if($data['hasErrors']){
     $errors = $data['errors'];
     print_r($errors);
 }
-
-function onFilesRemoveCallback($removed_files){
-    foreach($removed_files as $key=>$value){
-        $file = 'uploads/' . $value;
-        if(file_exists($file)){
-            unlink($file);
-            unset($removed_files[$key]);
-        }
-    }
-    
-    return $removed_files;
-}
 ~~~~
 
 __Download:__
 ~~~~ php
 include('src/class.uploader.php');
-    
+
 $uploader = new Uploader();
 $data = $uploader->upload('https://www.google.com/images/srpr/logo11w.png', array(
     'uploadDir' => 'uploads/', //Upload directory {String}
@@ -83,13 +72,14 @@ Fully documentation of class options and features.
 * __uploadDir__ Upload directory {String}
 * __title__ New file name
     * __null__ Uploads with original file name
-    * __String__ Custom file name | use: auto, name, {{random}}, {{file_name}}, {{file_size}}, {{timestamp}}, {{date}}
+    * __String__ Custom file name | use: auto, name, {{random}}, {{file_name}}, {{file_size}}, {{timestamp}}, {{date}}, {{extension}}, {{.extension}}
     * __Array__
-        * __String__ Custom file name | use: auto, name, {{random}}, {{file_name}}, {{file_size}}, {{timestamp}}, {{date}}
+        * __String__ Custom file name | use: auto, name, {{random}}, {{file_name}}, {{file_size}}, {{timestamp}}, {{date}}, {{extension}}, {{.extension}}
         * __Number__ Random name length
 * __removeFiles__ Enable file exclusion
     * __Boolean__ extra for plugin jQuery.filer
     * __String__ $_POST field name containing json data with removed files names
+* __replace__ Replace the file if it already exists {Boolean}
 * __perms__ Uploaded file permisions {null, Number}
 * __onCheck__ A callback function name to be called by checking a file for errors (must return an array) | ($file)
 * __onError__ A callback function name to be called if an error occured (must return an array) | ($errors, $file)
