@@ -14,8 +14,8 @@
 class Uploader {
 
     protected $options = array(
-        'limit' => 10,
-        'maxSize' => 10,
+        'limit' => null,
+        'maxSize' => null,
         'extensions' => null,
         'required' => false,
         'uploadDir' => 'uploads/',
