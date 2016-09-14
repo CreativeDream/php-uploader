@@ -1,4 +1,4 @@
-[PHP] Uploader 0.3
+[PHP] Uploader 0.4
 ============
 PHP File Uploader is an easy to use, hi-performance File Upload Script which allows you to upload/download files to webserver
 
