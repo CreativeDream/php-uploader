@@ -4,8 +4,8 @@
 #  Title      [PHP] Uploader
 #  Author:    CreativeDream
 #  Website:   https://github.com/CreativeDream/php-uploader
-#  Version:   0.3
-#  Date:      17-Aug-2016
+#  Version:   0.4
+#  Date:      14-Sep-2016
 #  Purpose:   Validate, Remove, Upload, Download files to server.
 #  Information: Please don't forget to check your php.ini file for "upload_max_filesize", "post_max_size", "max_file_uploads"
 #
@@ -197,6 +197,8 @@ class Uploader {
         if($validate){
             $files = array();
             $removed_files = $this->removeFiles();
+            $isAddMoreMode = count(preg_grep('/^(\d+)\:\/\/(.*)/i', $removed_files)) > 0;
+            $addMoreMatches = array();
 
             for($i = 0; $i < count($field['name']); $i++){
 
@@ -225,7 +227,16 @@ class Uploader {
                 $metas['replaced'] = file_exists($metas['file']);
                 $metas['date'] = date('r');
 
-                if(!in_array($field['name'][$i], $removed_files) && $this->validate(array_merge($metas, array('index'=>$i, 'tmp'=>$tmp_name))) && $this->uploadFile($tmp_name, $metas['file'])){
+                $is_file_removed = in_array($field['name'][$i], $removed_files);
+                if($isAddMoreMode){
+                    $addMoreMatches[$field['name'][$i]][] = $i;
+                    $matches = preg_grep('/^'.(count($addMoreMatches[$field['name'][$i]])-1).'\:\/\/'.$field['name'][$i].'/i', $removed_files);
+                    if(count($matches) == 1) {
+                        $is_file_removed = true;
+                    }
+                }
+
+                if(!$is_file_removed && $this->validate(array_merge($metas, array('index'=>$i, 'tmp'=>$tmp_name))) && $this->uploadFile($tmp_name, $metas['file'])){
                     if($this->options['perms']) @chmod($metas['file'], $this->options['perms']);
 
                     $custom = $this->_onUpload($metas, $this->field); if($custom && is_array($custom)) $metas = array_merge($custom, $metas);
@@ -270,26 +281,19 @@ class Uploader {
      * @return array
      */
 	private function removeFiles(){
-        $input = null;
         $removed_files = array();
-        if($this->options['removeFiles'] === true){
+        if($this->options['removeFiles'] !== false){
             foreach($_POST as $key=>$value){
                 preg_match((is_string($this->options['removeFiles']) ? $this->options['removeFiles'] : '/jfiler-items-exclude-'.$this->field['Field_Name'].'-(\d+)/'), $key, $matches);
-
                 if(isset($matches) && !empty($matches)){
                     $input = $_POST[$matches[0]];
-                    break;
+                    if($this->isJson($input)) $removed_files = json_decode($input, true);
+
+                    $custom = $this->_onRemove($removed_files, $this->field); if($custom && is_array($custom)) $removed_files = $custom;
                 }
             }
-        }elseif(is_string($this->options['removeFiles'])){
-            $input = $this->options['removeFiles'];
         }
 
-        if($input != null){
-            if($this->isJson($input)) $removed_files = json_decode($input, true);
-
-            $custom = $this->_onRemove($removed_files, $this->field); if($custom && is_array($custom)) $removed_files = $custom;
-        }
         return $removed_files;
 	}
 
@@ -402,7 +406,7 @@ class Uploader {
      * Check if string is a valid json
      * @return boolean
      */
-    function isJson($string) {
+    private function isJson($string) {
         json_decode($string);
         return (json_last_error() == JSON_ERROR_NONE);
     }
