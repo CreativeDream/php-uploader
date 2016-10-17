@@ -441,34 +441,81 @@ class Uploader {
         return $bytes;
     }
 
-	private function _onCheck(){
-		$arguments = func_get_args();
-		return $this->options['onCheck'] != null && function_exists($this->options['onCheck']) ? $this->options['onCheck'](@$arguments[0]) : null;
-	}
 
-	private function _onSuccess(){
-		$arguments = func_get_args();
-		return $this->options['onSuccess'] != null && function_exists($this->options['onSuccess']) ? $this->options['onSuccess'](@$arguments[0], @$arguments[1]) : null;
-	}
+    private function _onCheck(){
+        $arguments = func_get_args();
+        if (is_callable($this->options['onCheck'])) {
+            return call_user_func_array($this->options['onCheck'], $arguments);
+        }
+    }
 
-	private function _onError(){
-		$arguments = func_get_args();
-		return $this->options['onError'] && function_exists($this->options['onError']) ? $this->options['onError'](@$arguments[0], @$arguments[1]) : null;
-	}
+    private function _onSuccess(){
+        $arguments = func_get_args();
+        if (is_callable($this->options['onSuccess'])) {
+            return call_user_func_array($this->options['onSuccess'], $arguments);
+        }
+    }
 
-	private function _onUpload(){
-		$arguments = func_get_args();
-		return $this->options['onUpload'] && function_exists($this->options['onUpload']) ? $this->options['onUpload'](@$arguments[0], @$arguments[1]) : null;
-	}
+    private function _onError(){
+        $arguments = func_get_args();
+        if (is_callable($this->options['onError'])) {
+            return call_user_func_array($this->options['onError'], $arguments);
+        }
+    }
+
+    private function _onUpload(){
+        $arguments = func_get_args();
+        if (is_callable($this->options['onUpload'])) {
+            return call_user_func_array($this->options['onUpload'], $arguments);
+        }
+    }
 
     private function _onComplete(){
-		$arguments = func_get_args();
-		return $this->options['onComplete'] != null && function_exists($this->options['onComplete']) ? $this->options['onComplete'](@$arguments[0], @$arguments[1]) : null;
-	}
+        $arguments = func_get_args();
+        if (is_callable($this->options['onComplete'])) {
+            return call_user_func_array($this->options['onComplete'], $arguments);
+        }
+    }
 
     private function _onRemove(){
-		$arguments = func_get_args();
-		return $this->options['onRemove'] && function_exists($this->options['onRemove']) ? $this->options['onRemove'](@$arguments[0], @$arguments[1]) : null;
-	}
+        $arguments = func_get_args();
+        if (is_callable($this->options['onRemove'])) {
+            return call_user_func_array($this->options['onRemove'], $arguments);
+        }
+    }
+
+
+
+    /*
+    private function _onCheck(){
+        $arguments = func_get_args();
+        return $this->options['onCheck'] != null && function_exists($this->options['onCheck']) ? $this->options['onCheck'](@$arguments[0]) : null;
+    }
+
+    private function _onSuccess(){
+        $arguments = func_get_args();
+        return $this->options['onSuccess'] != null && function_exists($this->options['onSuccess']) ? $this->options['onSuccess'](@$arguments[0], @$arguments[1]) : null;
+    }
+
+    private function _onError(){
+        $arguments = func_get_args();
+        return $this->options['onError'] && function_exists($this->options['onError']) ? $this->options['onError'](@$arguments[0], @$arguments[1]) : null;
+    }
+
+    private function _onUpload(){
+        $arguments = func_get_args();
+        return $this->options['onUpload'] && function_exists($this->options['onUpload']) ? $this->options['onUpload'](@$arguments[0], @$arguments[1]) : null;
+    }
+
+    private function _onComplete(){
+        $arguments = func_get_args();
+        return $this->options['onComplete'] != null && function_exists($this->options['onComplete']) ? $this->options['onComplete'](@$arguments[0], @$arguments[1]) : null;
+    }
+
+    private function _onRemove(){
+        $arguments = func_get_args();
+        return $this->options['onRemove'] && function_exists($this->options['onRemove']) ? $this->options['onRemove'](@$arguments[0], @$arguments[1]) : null;
+    }
+    */
 }
 ?>
