@@ -391,7 +391,7 @@ class Uploader {
             $name = $file['name'];
             $i = 1;
             while (file_exists($this->options['uploadDir'].$string)) {
-                $file['name'] = $name . " ({$i})";
+                $conf = $name . " ({$i})";
                 $string = $this->generateFileName($conf, $file, true);
                 $i++;
             }
