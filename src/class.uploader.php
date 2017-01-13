@@ -384,17 +384,19 @@ class Uploader {
                 }
 		}
 
-        if(!$is_extension_used)
-            $string .= $extension;
-
         if(!$this->options['replace'] && !$skip_replace_check){
-            $name = $file['name'];
             $i = 1;
-            while (file_exists($this->options['uploadDir'].$string)) {
-                $conf = $name . " ({$i})";
-                $string = $this->generateFileName($conf, $file, true);
+            $check_name = $string;
+            while (file_exists($this->options['uploadDir'].($check_name . (!$is_extension_used ? $extension : '')))) {
+                $conf = $string . "({$i})";
+                $check_name = $this->generateFileName($conf, $file, true);
                 $i++;
             }
+            $string = $check_name;
+        }
+        
+        if(!$is_extension_used && !$skip_replace_check) {
+            $string .= $extension;
         }
 
 		return $string;
