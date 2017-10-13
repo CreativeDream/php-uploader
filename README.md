@@ -2,7 +2,7 @@
 ============
 PHP File Uploader is an easy to use, hi-performance File Upload Script which allows you to upload/download files to webserver
 
-<b><a href="http://grandesign.md/__cr/jquery.filer/#demos" target="blank">Demo</a></b> | <b><a href="https://github.com/CreativeDream/php-uploader#options">Documentation</a></b> | <b><a href="https://github.com/CreativeDream/jquery.filer" target="_blank">jQuery.filer</a></b>
+<b><a href="http://innostudio.de/fileuploader/" target="blank">Demo</a></b> | <b><a href="http://innostudio.de/fileuploader/">Documentation</a></b> | <b><a href="http://innostudio.de/fileuploader/" target="_blank">Fileuploader</a></b>
 
 Usage
 -------
